@@ -17,6 +17,8 @@ private:
     void Function();
     void ParamList();
     void CompStmt();
+    void Parameters();
+    void Parameter();
     void syntaxError(const string& message);
     void match(TokenCodes expectedTokenCode);
 
