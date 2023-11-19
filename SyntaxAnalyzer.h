@@ -26,6 +26,10 @@ private:
     void Expression();
     void Or();
     void And();
+    void Equality();
+    void Relational();
+    void Term();
+    void Factor();
     static void syntaxError(const string& message);
     void match(TokenCodes expectedTokenCode);
 

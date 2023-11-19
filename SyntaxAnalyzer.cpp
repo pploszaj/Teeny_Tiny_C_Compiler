@@ -120,9 +120,41 @@ void SyntaxAnalyzer::Expression(){
 
 void SyntaxAnalyzer::Or(){
     And();
+    while(nextTokenCode == OR){
+        match(OR);
+        And();
+    }
+}
+
+void SyntaxAnalyzer::And(){
+    Equality();
     while(nextTokenCode == AND){
         match(AND);
-        And();
+        Equality();
+    }
+}
+
+void SyntaxAnalyzer::Equality() {
+    Relational();
+    while(nextTokenCode == EQL || nextTokenCode == NEQ){
+        match(nextTokenCode);
+        Relational();
+    }
+}
+
+void SyntaxAnalyzer::Relational() {
+
+    while(nextTokenCode == GTR || nextTokenCode == LSS || nextTokenCode == GEQ || nextTokenCode == LEQ){
+        match(nextTokenCode);
+        Term();
+    }
+}
+
+void SyntaxAnalyzer::Term() {
+    Factor();
+    while (nextTokenCode == PLUS || nextTokenCode == MINUS){
+        match(nextTokenCode);
+        Factor();
     }
 }
 
