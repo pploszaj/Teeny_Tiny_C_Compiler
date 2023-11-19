@@ -19,7 +19,14 @@ private:
     void CompStmt();
     void Parameters();
     void Parameter();
-    void syntaxError(const string& message);
+    void SeqOfStmt();
+    void Statement();
+    void Declaration();
+    void IdentList();
+    void Expression();
+    void Or();
+    void And();
+    static void syntaxError(const string& message);
     void match(TokenCodes expectedTokenCode);
 
 public:

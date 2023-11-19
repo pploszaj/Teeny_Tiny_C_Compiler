@@ -71,6 +71,61 @@ void SyntaxAnalyzer::Parameter() {
     match(IDENT);
 }
 
+void SyntaxAnalyzer::CompStmt() {
+    match(LBRACE);
+    SeqOfStmt();
+    match(RBRACE);
+}
+
+void SyntaxAnalyzer::SeqOfStmt() {
+    while(nextTokenCode != RBRACE){
+        Statement();
+    }
+}
+
+void SyntaxAnalyzer::Statement() {
+    switch (nextTokenCode) {
+        case BOOL:
+        case INT:
+        case FLOAT:
+            Declaration();
+            match(SEMICOLON);
+            break;
+
+        case DO:
+            match(DOSYM);
+            Block();
+            match(WHILE);
+            match(LPAREN);
+            Expression();
+            match(RPAREN);
+            match(SEMICOLON);
+            break;
+
+        case IDENT:
+            Expression();
+    }
+
+}
+
+void SyntaxAnalyzer::Expression(){
+    if(nextTokenCode == IDENT){
+        match(IDENT);
+        match(ASSIGN);
+        Expression();
+    } else {
+        Or();
+    }
+};
+
+void SyntaxAnalyzer::Or(){
+    And();
+    while(nextTokenCode == AND){
+        match(AND);
+        And();
+    }
+}
+
 void SyntaxAnalyzer::match(TokenCodes expectedTokenCode) {
     if (nextTokenCode == expectedTokenCode) {
         nextToken = la->getNextToken();
