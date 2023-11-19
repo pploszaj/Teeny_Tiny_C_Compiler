@@ -13,7 +13,12 @@ private:
     LexicalAnalyzer *la;
     Token *nextToken;
     TokenCodes nextTokenCode;
-
+    void Functions();
+    void Function();
+    void ParamList();
+    void CompStmt();
+    void syntaxError(const string& message);
+    void match(TokenCodes expectedTokenCode);
 
 public:
     SyntaxAnalyzer(LexicalAnalyzer*);
