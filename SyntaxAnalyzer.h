@@ -23,6 +23,7 @@ private:
     void Statement();
     void Declaration();
     void IdentList();
+    void Block();
     void Expression();
     void Or();
     void And();
@@ -30,6 +31,8 @@ private:
     void Relational();
     void Term();
     void Factor();
+    void Unary();
+    void Primary();
     static void syntaxError(const string& message);
     void match(TokenCodes expectedTokenCode);
 
