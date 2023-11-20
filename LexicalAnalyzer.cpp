@@ -314,5 +314,4 @@ Token* LexicalAnalyzer::getNextToken()
     string lexeme(1, currentChar);
     getNextChar();
     return new Token(NAL, lexeme);
-
 }

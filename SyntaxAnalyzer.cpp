@@ -14,26 +14,30 @@ SyntaxAnalyzer::SyntaxAnalyzer(LexicalAnalyzer *l)
 
 void SyntaxAnalyzer::Program()
 {
+//    cout << "IN PROGRAM FUNCTION" << endl;
     Functions();
+    cout << "RIGHT BEFORE MATCH EOI" << endl;
     match(EOI);
     cout << "The program is syntactically correct" << endl;
 }
 
 void SyntaxAnalyzer::Functions() {
-    while(nextTokenCode == BOOL || nextTokenCode == FLOAT || nextTokenCode == INT || nextTokenCode == VOID) {
+//    cout << "IN FUNCTIONS FUNCTION" << endl;
+    while(nextTokenCode == BOOLSYM || nextTokenCode == FLOATSYM || nextTokenCode == INTSYM || nextTokenCode == VOIDSYM) {
         Function();
     }
 }
 
 void SyntaxAnalyzer::Function() {
-    if (nextTokenCode == BOOL) {
-        match(BOOL);
-    } else if (nextTokenCode == FLOAT){
-        match(FLOAT);
-    } else if (nextTokenCode == INT) {
-        match(INT);
-    } else if (nextTokenCode == VOID) {
-        match(VOID);
+//    cout << "IN FUNCTION FUNCTION" << endl;
+    if (nextTokenCode == BOOLSYM) {
+        match(BOOLSYM);
+    } else if (nextTokenCode == FLOATSYM){
+        match(FLOATSYM);
+    } else if (nextTokenCode == INTSYM) {
+        match(INTSYM);
+    } else if (nextTokenCode == VOIDSYM) {
+        match(VOIDSYM);
     } else {
         syntaxError("Expected function type");
     }
@@ -46,12 +50,14 @@ void SyntaxAnalyzer::Function() {
 }
 
 void SyntaxAnalyzer::ParamList() {
-    if (nextTokenCode == BOOL || nextTokenCode == FLOAT || nextTokenCode == INT){
+//    cout << "IN PARAMLIST FUNCTION" << endl;
+    if (nextTokenCode == BOOLSYM || nextTokenCode == FLOATSYM || nextTokenCode == INTSYM){
         Parameters();
     }
 }
 
 void SyntaxAnalyzer::Parameters() {
+//    cout << "IN PARAMETERS FUNCTION" << endl;
     Parameter();
     while(nextTokenCode == COMMA) {
         match(COMMA);
@@ -60,12 +66,13 @@ void SyntaxAnalyzer::Parameters() {
 }
 
 void SyntaxAnalyzer::Parameter() {
-    if (nextTokenCode == BOOL) {
-        match(BOOL);
-    } else if (nextTokenCode == FLOAT) {
-        match(FLOAT);
-    } else if (nextTokenCode == INT) {
-        match(INT);
+//    cout << "IN PARAMETER FUNCTION" << endl;
+    if (nextTokenCode == BOOLSYM) {
+        match(BOOLSYM);
+    } else if (nextTokenCode == FLOATSYM) {
+        match(FLOATSYM);
+    } else if (nextTokenCode == INTSYM) {
+        match(INTSYM);
     } else {
         syntaxError("Expected parameter type");
     }
@@ -73,30 +80,33 @@ void SyntaxAnalyzer::Parameter() {
 }
 
 void SyntaxAnalyzer::CompStmt() {
+//    cout << "IN COMPSTMT FUNCTION" << endl;
     match(LBRACE);
     SeqOfStmt();
     match(RBRACE);
 }
 
 void SyntaxAnalyzer::SeqOfStmt() {
+//    cout << "IN SEQOFSTMT FUNCTION" << endl;
     while(nextTokenCode != RBRACE){
         Statement();
     }
 }
 
 void SyntaxAnalyzer::Statement() {
+//    cout << "IN STATEMENT FUNCTION" << endl;
     switch (nextTokenCode) {
-        case BOOL:
-        case INT:
-        case FLOAT:
+        case BOOLSYM:
+        case INTSYM:
+        case FLOATSYM:
             Declaration();
             match(SEMICOLON);
             break;
 
-        case DO:
+        case DOSYM:
             match(DOSYM);
             Block();
-            match(WHILE);
+            match(WHILESYM);
             match(LPAREN);
             Expression();
             match(RPAREN);
@@ -163,6 +173,7 @@ void SyntaxAnalyzer::Statement() {
     }
 }
 void SyntaxAnalyzer::Declaration() {
+//    cout << "IN DECLARATION FUNCTION" << endl;
     if(nextTokenCode == BOOLSYM || nextTokenCode == INTSYM || nextTokenCode == FLOATSYM){
         match(nextTokenCode);
         IdentList();
@@ -172,6 +183,7 @@ void SyntaxAnalyzer::Declaration() {
 }
 
 void SyntaxAnalyzer::Block() {
+//    cout << "IN BLOCK FUNCTION" << endl;
     if(nextTokenCode == LBRACE){
         CompStmt();
     } else {
@@ -180,6 +192,7 @@ void SyntaxAnalyzer::Block() {
 }
 
 void SyntaxAnalyzer::IdentList() {
+//    cout << "IN IDENTLIST FUNCTION" << endl;
     match(IDENT);
     if(nextTokenCode == COMMA){
         match(COMMA);
@@ -188,6 +201,7 @@ void SyntaxAnalyzer::IdentList() {
 }
 
 void SyntaxAnalyzer::Expression(){
+//    cout << "IN EXPRESSION FUNCTION" << endl;
     if(nextTokenCode == IDENT){
         match(IDENT);
         match(ASSIGN);
@@ -198,6 +212,7 @@ void SyntaxAnalyzer::Expression(){
 };
 
 void SyntaxAnalyzer::Or(){
+//    cout << "IN OR FUNCTION" << endl;
     And();
     while(nextTokenCode == OR){
         match(OR);
@@ -206,6 +221,7 @@ void SyntaxAnalyzer::Or(){
 }
 
 void SyntaxAnalyzer::And(){
+//    cout << "IN AND FUNCTION" << endl;
     Equality();
     while(nextTokenCode == AND){
         match(AND);
@@ -214,6 +230,7 @@ void SyntaxAnalyzer::And(){
 }
 
 void SyntaxAnalyzer::Equality() {
+//    cout << "IN EQUALITY FUNCTION" << endl;
     Relational();
     while(nextTokenCode == EQL || nextTokenCode == NEQ){
         match(nextTokenCode);
@@ -222,6 +239,7 @@ void SyntaxAnalyzer::Equality() {
 }
 
 void SyntaxAnalyzer::Relational() {
+//    cout << "IN RELATION FUNCTION" << endl;
     Term();
     while(nextTokenCode == GTR || nextTokenCode == LSS || nextTokenCode == GEQ || nextTokenCode == LEQ){
         match(nextTokenCode);
@@ -230,6 +248,7 @@ void SyntaxAnalyzer::Relational() {
 }
 
 void SyntaxAnalyzer::Term() {
+//    cout << "IN TERM FUNCTION" << endl;
     Factor();
     while (nextTokenCode == PLUS || nextTokenCode == MINUS){
         match(nextTokenCode);
@@ -238,6 +257,7 @@ void SyntaxAnalyzer::Term() {
 }
 
 void SyntaxAnalyzer::Factor() {
+//    cout << "IN FACTOR FUNCTION" << endl;
     Unary();
     while(nextTokenCode == TIMES || nextTokenCode == SLASH || nextTokenCode == MOD){
         match(nextTokenCode);
@@ -246,6 +266,7 @@ void SyntaxAnalyzer::Factor() {
 }
 
 void SyntaxAnalyzer::Unary() {
+//    cout << "IN UNARY FUNCTION" << endl;
     if(nextTokenCode == NOT){
         match(NOT);
         Primary();
@@ -255,6 +276,7 @@ void SyntaxAnalyzer::Unary() {
 }
 
 void SyntaxAnalyzer::Primary() {
+//    cout << "IN PRIMARY FUNCTION" << endl;
     switch (nextTokenCode) {
         case LPAREN:
             match(LPAREN);
@@ -285,6 +307,8 @@ void SyntaxAnalyzer::match(TokenCodes expectedTokenCode) {
         nextToken = la->getNextToken();
         nextTokenCode = nextToken->getTokenCode();
     } else {
+        cerr << "NextTokenCode: " << nextTokenCode << endl;
+        cerr << "ExpectedTokenCode: " << expectedTokenCode << endl;
         syntaxError("Expected token not found");
     }
 }
