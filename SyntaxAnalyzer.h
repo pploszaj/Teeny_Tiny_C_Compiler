@@ -33,7 +33,7 @@ private:
     void Factor();
     void Unary();
     void Primary();
-    static void syntaxError(const string& message);
+    void syntaxError(const string& message);
     void match(TokenCodes expectedTokenCode);
 
 public:

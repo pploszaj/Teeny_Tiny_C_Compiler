@@ -16,6 +16,7 @@ void SyntaxAnalyzer::Program()
 {
     Functions();
     match(EOI);
+    cout << "The program is syntactically correct" << endl;
 }
 
 void SyntaxAnalyzer::Functions() {
@@ -289,6 +290,8 @@ void SyntaxAnalyzer::match(TokenCodes expectedTokenCode) {
 }
 
 void SyntaxAnalyzer::syntaxError(const std::string &message) {
-    cerr << "Syntax Error: " << message << endl;
-    exit(1);
+    int errorPosition = la->getCurrentTokenPosition();
+    cout << string(errorPosition, ' ') << '^' << endl;
+    cout << "Syntax Error: " << message << endl;
+    exit(0);
 }
