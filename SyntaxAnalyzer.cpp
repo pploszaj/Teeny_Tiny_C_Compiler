@@ -32,8 +32,6 @@ void SyntaxAnalyzer::Function() {
         match(FLOATSYM);
     } else if (nextTokenCode == INTSYM) {
         match(INTSYM);
-    } else if (nextTokenCode == VOIDSYM) {
-        match(VOIDSYM);
     } else {
         syntaxError("Expected function type");
     }
@@ -277,7 +275,6 @@ void SyntaxAnalyzer::Primary() {
             syntaxError("Unexpected token in Primary");
             break;
     }
-
 }
 
 void SyntaxAnalyzer::match(TokenCodes expectedTokenCode) {
@@ -291,9 +288,7 @@ void SyntaxAnalyzer::match(TokenCodes expectedTokenCode) {
             syntaxError("right parenthesis expected");
         } else if (expectedTokenCode == LPAREN) {
             syntaxError("left parenthesis expected");
-        } else if (expectedTokenCode == IFSYM) {
-            syntaxError("missing if statement");
-        }else if (expectedTokenCode == LBRACE) {
+        } else if (expectedTokenCode == LBRACE) {
             syntaxError("left brace expected");
         } else {
             syntaxError("Expected token not found");
