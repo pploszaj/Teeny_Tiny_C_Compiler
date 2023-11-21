@@ -15,4 +15,9 @@ add_executable(SyntaxAnalyzer
         test2.c
         Token.cpp
         Token.h
-        TokenCodes.h)
+        TokenCodes.h
+        test3.c
+        test4.c
+        test5.c
+        test6.c
+        test7.c)
